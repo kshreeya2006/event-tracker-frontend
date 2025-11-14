@@ -31,6 +31,10 @@ export default function Login() {
                onChange={(e) => setPassword(e.target.value)} />
         <br />
         <button>Login</button>
+        <p>
+            Don’t have an account? <Link to="/register">Register here</Link>
+        </p>
+
       </form>
     </div>
   );
