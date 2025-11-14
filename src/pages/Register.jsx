@@ -1,52 +1,37 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import api from "../api";
+import API from "../api";
 
 export default function Register() {
-  const navigate = useNavigate();
   const [form, setForm] = useState({
     name: "",
     email: "",
-    password: "",
-    role: "student"
+    role: ""
   });
 
-  function handleInput(e) {
+  function handleChange(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  async function handleRegister(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    try {
-      await api.post("/api/auth/register", form);
-      alert("Registered successfully! Please log in.");
-      navigate("/");
-    } catch (err) {
-      alert("Registration failed. Email may already exist.");
-    }
+    await API.post("/api/users", form);
+    alert("User Registered!");
   }
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>Register</h1>
-
-      <form onSubmit={handleRegister} style={{ maxWidth: "300px" }}>
-        <input name="name" placeholder="Name" onChange={handleInput} required /><br/><br/>
-        <input name="email" type="email" placeholder="Email" onChange={handleInput} required /><br/><br/>
-        <input name="password" type="password" placeholder="Password" onChange={handleInput} required /><br/><br/>
-
-        <label>Role:</label>
-        <select name="role" onChange={handleInput}>
+    <div>
+      <h2>Create User</h2>
+      <form onSubmit={handleSubmit}>
+        <input name="name" placeholder="Name" onChange={handleChange} /><br/>
+        <input name="email" placeholder="Email" onChange={handleChange} /><br/>
+        <select name="role" onChange={handleChange}>
+          <option value="">Select Role</option>
           <option value="student">Student</option>
           <option value="organiser">Organiser</option>
-        </select><br/><br/>
+        </select><br/>
 
         <button>Register</button>
       </form>
-
-      <p style={{ marginTop: 20 }}>
-        Already have an account? <Link to="/">Login</Link>
-      </p>
     </div>
   );
 }
