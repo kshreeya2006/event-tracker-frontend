@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../api";
 
 export default function StudentDashboard() {
@@ -8,27 +8,26 @@ export default function StudentDashboard() {
     api.get("/api/events").then(res => setEvents(res.data));
   }, []);
 
-  async function register(eventId) {
+  async function registerEvent(id) {
     try {
-      await api.post(`/api/registrations/${eventId}`);
-      alert("Registered!");
-    } catch (err) {
-      alert("Already registered or error occurred.");
+      await api.post(`/api/registrations/${id}`);
+      alert("Registered successfully!");
+    } catch {
+      alert("You may already be registered.");
     }
   }
 
   return (
-    <div>
+    <div style={{ padding: 20 }}>
       <h1>Student Dashboard</h1>
-      <h2>Available Events</h2>
 
       {events.map(ev => (
-        <div key={ev._id} style={{ border: "1px solid black", margin: "10px", padding: "10px" }}>
+        <div key={ev._id} style={{ border: "1px solid black", margin: 10, padding: 10 }}>
           <h3>{ev.title}</h3>
           <p>{ev.description}</p>
-          <p>{ev.date} {ev.time}</p>
+          <p>{ev.date} — {ev.time}</p>
           <p>{ev.venue}</p>
-          <button onClick={() => register(ev._id)}>Register</button>
+          <button onClick={() => registerEvent(ev._id)}>Register</button>
         </div>
       ))}
     </div>
