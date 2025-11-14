@@ -1,6 +1,8 @@
 import { useState } from "react";
 import api from "../api";
 import { useNavigate, Link } from "react-router-dom";
+//import { Link, useNavigate } from "react-router-dom";
+
 
 export default function Register() {
   const [form, setForm] = useState({
